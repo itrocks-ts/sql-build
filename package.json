@@ -5,22 +5,19 @@
 	},
 	"description": "Business-oriented SQL query modelling for relational databases",
 	"devDependencies": {
-		"typescript": "~5.9"
+		"typescript": "^6.0"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=24"
 	},
-	"exports": {
-		"import": "./esm/sql-build.js",
-		"require": "./cjs/sql-build.js"
-	},
-	"homepage": "https://it.rocks",
+	"exports": "./cjs/sql-build.js",
 	"files": [
 		"LICENSE",
 		"README.md",
-		"*/*.d.ts",
-		"*/*.js"
+		"cjs",
+		"!*.map"
 	],
+	"homepage": "https://it.rocks",
 	"keywords": [
 		"backend",
 		"build",
@@ -46,10 +43,8 @@
 		"url": "git+https://github.com/itrocks-ts/sql-build.git"
 	},
 	"scripts": {
-		"build": "npm run build:cjs && npm run build:esm",
-		"build:cjs": "tsc -p tsconfig.cjs.json",
-		"build:esm": "tsc -p tsconfig.esm.json"
+		"build": "tsc"
 	},
 	"types": "./esm/sql-build.d.ts",
-	"version": "0.0.2"
+	"version": "0.0.3"
 }
