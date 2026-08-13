@@ -3,12 +3,15 @@
 		"name": "Baptiste Pillot",
 		"email": "baptiste@pillot.fr"
 	},
-	"description": "Business-oriented SQL query modelling for relational databases",
+	"description": "Builds parameterized SQL SELECT and COUNT queries from relational table metadata",
 	"dependencies": {
+		"@itrocks/sql-functions": "latest",
 		"@itrocks/sql-join": "latest"
 	},
 	"devDependencies": {
-		"typescript": "^6.0"
+		"@types/node": "^24.13.3",
+		"tsx": "^4.23.12",
+		"typescript": "^7.0"
 	},
 	"engines": {
 		"node": ">=24"
@@ -18,6 +21,7 @@
 		"LICENSE",
 		"README.md",
 		"cjs",
+		"docs/dependencies.md",
 		"!*.map"
 	],
 	"homepage": "https://it.rocks",
@@ -25,17 +29,16 @@
 		"backend",
 		"build",
 		"builder",
+		"count",
 		"database",
-		"inner-join",
 		"it.rocks",
 		"join",
-		"left-join",
+		"metadata",
+		"parameterized query",
 		"query",
-		"query-builder",
-		"outer-join",
-		"query",
+		"query builder",
 		"relational",
-		"right-join",
+		"select",
 		"sql",
 		"table"
 	],
@@ -46,8 +49,10 @@
 		"url": "git+https://github.com/itrocks-ts/sql-build.git"
 	},
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"test": "npm run test:types && tsx --test --test-isolation=none test/sql-build.test.ts",
+		"test:types": "tsc --ignoreConfig --module nodenext --noEmit --types node test/*.test.ts"
 	},
 	"types": "./cjs/sql-build.d.ts",
-	"version": "0.0.4"
+	"version": "0.1.0"
 }
