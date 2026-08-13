@@ -4,6 +4,9 @@
 		"email": "baptiste@pillot.fr"
 	},
 	"description": "Business-oriented SQL query modelling for relational databases",
+	"dependencies": {
+		"@itrocks/sql-join": "latest"
+	},
 	"devDependencies": {
 		"typescript": "^6.0"
 	},
@@ -45,6 +48,6 @@
 	"scripts": {
 		"build": "tsc"
 	},
-	"types": "./esm/sql-build.d.ts",
-	"version": "0.0.3"
+	"types": "./cjs/sql-build.d.ts",
+	"version": "0.0.4"
 }
