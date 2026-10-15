@@ -1,12 +1,15 @@
-import { Joins }           from '@itrocks/sql-join'
-import { Columns }         from './columns'
-import { ColumnSelection } from './query'
-import { SqlQuery }        from './query'
-import { WhereConditions } from './query'
-import { Tables }          from './tables'
-import { Where }           from './where'
+import { Joins }             from '@itrocks/sql-join'
+import { Columns }           from './columns'
+import { buildProjection }   from './projection'
+import { ColumnSelection }   from './query'
+import { ProjectionOptions } from './query'
+import { ProjectionQuery }   from './query'
+import { SqlQuery }          from './query'
+import { WhereConditions }   from './query'
+import { Tables }            from './tables'
+import { Where }             from './where'
 
-export type SelectOptions = {
+export type SelectOptions = ProjectionOptions & {
 	aliasPrefix?: string
 }
 
@@ -19,10 +22,10 @@ export class Select<TableDefinition = unknown, ColumnDefinition = unknown>
 	readonly where:   Where<TableDefinition, ColumnDefinition>
 
 	constructor(
-		tableDefinition: TableDefinition,
+		private readonly tableDefinition: TableDefinition,
 		columns?:        readonly ColumnSelection[],
 		where?:          WhereConditions,
-		options:         SelectOptions = {}
+		private readonly options: SelectOptions = {}
 	)
 	{
 		this.joins   = new Joins<TableDefinition, ColumnDefinition>(tableDefinition, [], options.aliasPrefix)
@@ -39,6 +42,12 @@ export class Select<TableDefinition = unknown, ColumnDefinition = unknown>
 			sql:    where.sql ? `${sql}\n${where.sql}` : sql,
 			values: where.values
 		}
+	}
+
+	buildProjection(): ProjectionQuery<ColumnDefinition, TableDefinition>
+	{
+		return buildProjection(this.tableDefinition, this.columns.selections ?? [], this.where,
+			this.options, this.options.aliasPrefix)
 	}
 
 	toSql(): string

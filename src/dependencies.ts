@@ -1,6 +1,7 @@
 
-export type Dependencies<ColumnDefinition> = {
+export type Dependencies<ColumnDefinition, TableDefinition = unknown> = {
 	columnOf:        (columnDefinition: ColumnDefinition) => string
+	objectFieldsOf?: (tableDefinition: TableDefinition) => readonly string[]
 	placeholderOf:   (position: number) => string
 	quoteIdentifier: (identifier: string) => string
 }
@@ -28,7 +29,9 @@ function isObject(value: unknown): value is Record<string, unknown>
 	return (typeof value === 'object') && (value !== null)
 }
 
-export function sqlBuildDependsOn<ColumnDefinition>(dependencies: Partial<Dependencies<ColumnDefinition>>): void
+export function sqlBuildDependsOn<ColumnDefinition, TableDefinition = unknown>(
+	dependencies: Partial<Dependencies<ColumnDefinition, TableDefinition>>
+): void
 {
 	Object.assign(depends, dependencies)
 }

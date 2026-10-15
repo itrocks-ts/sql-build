@@ -1,5 +1,14 @@
-import { Joins }   from '@itrocks/sql-join'
-import { depends } from './dependencies'
+import { Join }              from '@itrocks/sql-join'
+import { Joins }             from '@itrocks/sql-join'
+import { RelationshipGraph } from '@itrocks/sql-join'
+import { depends }           from './dependencies'
+
+export function graphTables<T, C>(graph: RelationshipGraph<T, C>, joins: readonly Join<T | undefined, C>[]): string
+{
+	const table = new Joins(graph.root).getStartingTable()
+	return `${depends.quoteIdentifier(table)} AS ${depends.quoteIdentifier(graph.rootAlias())}`
+		+ joins.map(join => `\n${join.toSql()}`).join('')
+}
 
 export class Tables<TableDefinition = unknown, ColumnDefinition = unknown>
 {

@@ -50,9 +50,9 @@
 	},
 	"scripts": {
 		"build": "tsc",
-		"test": "npm run test:types && tsx --test --test-isolation=none test/sql-build.test.ts",
+		"test": "npm run build && npm run test:types && tsx --test --test-isolation=none test/sql-build.test.ts && node --test --test-isolation=none test/property-select.test.mjs",
 		"test:types": "tsc --ignoreConfig --module nodenext --noEmit --types node test/*.test.ts"
 	},
 	"types": "./cjs/sql-build.d.ts",
-	"version": "0.1.1"
+	"version": "0.2.0"
 }
