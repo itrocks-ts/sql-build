@@ -236,3 +236,8 @@ metadata-only projection tests. No database is accessed by this suite.
 
 See [dependency configuration](docs/dependencies.md) for defaults, generic metadata adapters, and the it.rocks framework
 binding.
+
+## Batched criteria
+
+An array criterion matches any supplied value through a parameterised SQL `IN` predicate. An empty array matches
+no rows. All operands are bound separately; they are never interpolated into SQL.

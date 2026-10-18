@@ -98,6 +98,14 @@ export class Where<TableDefinition = unknown, ColumnDefinition = unknown>
 
 	private predicate(column: string, value: unknown, values: unknown[]): string
 	{
+		if (Array.isArray(value)) {
+			if (!value.length) return '1 = 0'
+			const placeholders = value.map(operand => {
+				values.push(operand)
+				return depends.placeholderOf(values.length)
+			})
+			return `${column} IN (${placeholders.join(', ')})`
+		}
 		if (value === null) return `${column} IS NULL`
 		if (value instanceof SqlFunction) {
 			if (value.sql.split('?').length !== 2) {

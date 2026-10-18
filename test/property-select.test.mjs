@@ -272,3 +272,11 @@ test('SQL-02: default object discovery omits plural and unmapped relations witho
 		delete customer.columns.lines
 	}
 })
+
+test('array criteria use bound IN operands, including empty sets', () => {
+	const query = projection(['number'], { number: ['A', "B' OR 1=1"] })
+	assert.match(query.sql, /IN \(\?, \?\)/)
+	assert.deepEqual(query.values, ['A', "B' OR 1=1"])
+	assert.ok(!query.sql.includes("B' OR 1=1"))
+	assert.match(projection([], { number: [] }).sql, /1 = 0/)
+})
